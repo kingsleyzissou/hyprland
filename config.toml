@@ -1,0 +1,20 @@
+[[customizations.user]]
+name = "kingsley"
+password = "$6$B/wDZygsT68PuueP$zm96JvT4gwX53/bsTynObgnmpak2r3hNzuSj0RT/U50Ru/9zf6lX.3jan1ZIxHbdBlK5buEdXmlMVbpWmN5CD1"
+key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBCWAwAqV3weCALKWrSAAHir+oIga1TU5VL4hnjWWU2x"
+home = "/var/home/kingsley"
+shell = "/usr/bin/zsh"
+groups= [ "wheel", "netdev" ]
+
+[customizations.installer.modules]
+enable = [
+  "org.fedoraproject.Anaconda.Modules.Storage",
+  "org.fedoraproject.Anaconda.Modules.Users"
+]
+disable = [
+  "org.fedoraproject.Anaconda.Modules.Network",
+  "org.fedoraproject.Anaconda.Modules.Security",
+  "org.fedoraproject.Anaconda.Modules.Services",
+  "org.fedoraproject.Anaconda.Modules.Subscription",
+  "org.fedoraproject.Anaconda.Modules.Timezone"
+]

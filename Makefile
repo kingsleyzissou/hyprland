@@ -1,10 +1,10 @@
-.PHONY : build
+.PHONY : container
 container:
 	sudo podman build \
 		--secret id=container_auth,src=/home/kingsley/.gat,type=file \
 		--tag ghcr.io/kingsleyzissou/hyprland .
 
-.PHONY : build
+.PHONY : image
 image:
 	sudo podman run \
     --rm \

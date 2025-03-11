@@ -216,6 +216,12 @@ RUN dnf5 clean all
 RUN flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 
 ##########################################################
+##### SDDM theme
+##########################################################
+RUN wget https://github.com/catppuccin/sddm/releases/download/v1.0.0/catppuccin-macchiato.zip -P /tmp
+RUN unzip -d /usr/share/sddm/themes/catppuccin-macchiato /tmp/catppuccin-macchiato.zip
+
+##########################################################
 ##### Files
 ##########################################################
 COPY files/system/etc /etc

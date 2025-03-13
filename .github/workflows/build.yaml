@@ -1,5 +1,5 @@
 name: Build Image
-on: [ push ]
+on: [ pull_request ]
 
 env:
   REGISTRY_USER: kingsleyzissou
@@ -20,11 +20,6 @@ jobs:
         registry: ${{ env.IMAGE_REGISTRY }}
         username: ${{ env.REGISTRY_USER }}
         password: ${{ secrets.AUTH_TOKEN }}
-
-    - name: Install podman
-      run: |
-        sudo apt update
-        sudo apt install -y podman
 
     - name: Build Image
       id: build-image

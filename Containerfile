@@ -219,7 +219,7 @@ RUN flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flath
 ##### SDDM theme
 ##########################################################
 RUN wget https://github.com/catppuccin/sddm/releases/download/v1.0.0/catppuccin-macchiato.zip -P /tmp
-RUN unzip -d /usr/share/sddm/themes/catppuccin-macchiato /tmp/catppuccin-macchiato.zip
+RUN unzip -d /usr/share/sddm/themes /tmp/catppuccin-macchiato.zip
 
 ##########################################################
 ##### Files

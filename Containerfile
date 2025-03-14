@@ -42,12 +42,14 @@ RUN dnf5 install -y \
 RUN dnf5 install -y \
   alsa-firmware \
   alsa-sof-firmware \
+  alsa-tools-firmware \
   intel-audio-firmware \
   intel-gpu-firmware \
   intel-igc \
   iwlwifi-dvm-firmware \
   iwlwifi-mvm-firmware \
-  linux-firmware
+  linux-firmware \
+  realtek-firmware
 
 ##########################################################
 ##### Hyprland
@@ -109,6 +111,8 @@ RUN dnf5 -y copr disable heus-sueh/packages
 ##### Audio
 ##########################################################
 RUN dnf5 install -y \
+  alsa-plugins-oss \
+  alsa-topology \
   alsa-utils \
   pavucontrol \
   pamixer \

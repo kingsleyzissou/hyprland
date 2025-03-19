@@ -1,7 +1,7 @@
 .PHONY : container
 container:
 	sudo podman build \
-		--secret id=container_auth,src=/home/kingsley/.gat,type=file \
+		--secret id=container_auth,src=/etc/ostree/auth.json,type=file \
 		--tag ghcr.io/kingsleyzissou/hyprland .
 
 .PHONY : image

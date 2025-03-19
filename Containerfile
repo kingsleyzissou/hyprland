@@ -239,7 +239,9 @@ COPY files/system/usr /usr
 ##### Secrets
 ##########################################################
 RUN mkdir -p /etc/secrets
-RUN --mount=type=secret,id=container_auth cp /run/secrets/container_auth /etc/ostree/auth.json
+RUN --mount=type=secret,id=container_auth cp /run/secrets/container_auth /usr/lib/container-auth.json
+RUN chmod 0600 /usr/lib/container-auth.json
+RUN ln -sr /usr/lib/container-auth.json /etc/ostree/auth.json
 
 ##########################################################
 ##### Services

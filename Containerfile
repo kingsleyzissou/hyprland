@@ -9,6 +9,8 @@ COPY README.md .
 
 FROM quay.io/fedora/fedora-bootc:41
 
+RUN dnf5 -y upgrade
+
 ##########################################################
 ##### Core
 ##########################################################
@@ -114,6 +116,9 @@ RUN dnf5 install -y \
   alsa-plugins-oss \
   alsa-topology \
   alsa-utils \
+  alsa-tools \
+  inxi \
+  libalsa \
   pavucontrol \
   pamixer \
   mediainfo

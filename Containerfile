@@ -7,9 +7,21 @@ FROM ghcr.io/kingsleyzissou/internal-packages as vpn-configs
 # podman to be able to use this.
 COPY README.md .
 
+##########################################################
+##### ddcci modules
+##########################################################
+FROM localhost/ddcci as ddcci
+# no-op so we can use this as a builder image
+RUN echo "no-op"
+
+##########################################################
+##### Hyprland base image
+##########################################################
 FROM quay.io/fedora/fedora-bootc:41
 
-RUN dnf5 -y upgrade
+ARG KERNEL
+
+RUN dnf5 -y update && dnf5 -y upgrade
 
 ##########################################################
 ##### Core
@@ -24,6 +36,7 @@ RUN dnf5 install -y \
   gtk-murrine-engine \
   gobject-introspection-devel \
   iwd \
+  kernel-${KERNEL} \
   krb5-workstation \
   libgtop2 \
   nautilus \
@@ -228,6 +241,11 @@ RUN flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flath
 ##########################################################
 RUN wget https://github.com/catppuccin/sddm/releases/download/v1.0.0/catppuccin-macchiato.zip -P /tmp
 RUN unzip -d /usr/share/sddm/themes /tmp/catppuccin-macchiato.zip
+
+##########################################################
+##### Extra modules
+##########################################################
+COPY --from=ddcci /usr/lib/modules/${KERNEL}/extra/*.ko /usr/lib/modules/${KERNEL}/extra/.
 
 ##########################################################
 ##### Files

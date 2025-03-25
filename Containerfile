@@ -245,7 +245,10 @@ RUN unzip -d /usr/share/sddm/themes /tmp/catppuccin-macchiato.zip
 ##########################################################
 ##### Extra modules
 ##########################################################
-COPY --from=ddcci /usr/lib/modules/${KERNEL}/extra/*.ko /usr/lib/modules/${KERNEL}/extra/.
+# https://projectatomic.io/blog/2018/06/building-kernel-modules-with-podman/
+COPY --from=ddcci /usr/lib/modules/${KERNEL}/extra/ddcci.ko /usr/lib/modules/${KERNEL}/extra/ddcci.ko
+COPY --from=ddcci /usr/lib/modules/${KERNEL}/extra/ddcci-backlight.ko /usr/lib/modules/${KERNEL}/extra/ddcci-backlight.ko
+RUN ls -al /usr/lib/modules/${KERNEL}/extra
 
 ##########################################################
 ##### Files

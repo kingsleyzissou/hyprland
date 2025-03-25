@@ -1,0 +1,17 @@
+FROM quay.io/fedora/fedora-bootc:41
+
+ARG KERNEL
+
+RUN dnf update -y && dnf upgrade -y
+
+RUN dnf install -y \
+  make git glibc glibc-devel glibc-headers kmod \
+  kernel-$KERNEL kernel-modules-$KERNEL kernel-devel-$KERNEL kernel-core-$KERNEL
+
+RUN dnf clean all
+
+WORKDIR /build
+
+RUN git clone https://gitlab.com/ddcci-driver-linux/ddcci-driver-linux.git /build
+
+RUN make KERNEL_MODLIB=/usr/lib/modules/${KERNEL} && make KVER=${KERNEL} install

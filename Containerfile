@@ -210,8 +210,8 @@ RUN dnf5 config-manager setopt 1password.enabled=0
 ##########################################################
 COPY --from=vpn-configs /rpms /var/tmp/rpms/.
 RUN dnf5 install -y \
-/var/tmp/rpms/redhat-internal-cert-install.rpm \
-var/tmp/rpms/redhat-internal-NetworkManager-openvpn-profiles.rpm
+  /var/tmp/rpms/redhat-internal-cert-install.rpm \
+  /var/tmp/rpms/redhat-internal-NetworkManager-openvpn-profiles.rpm
 
 ##########################################################
 ##### Clean
@@ -250,6 +250,12 @@ RUN systemctl enable NetworkManager.service
 RUN systemctl enable sddm.service
 RUN systemctl enable podman.socket
 RUN systemctl enable tailscaled.service
+
+##########################################################
+##### Mask
+##########################################################
+RUN systemctl mask rpm-ostree-countme.timer
+RUN systemctl mask rpm-ostree-countme.service
 
 LABEL summary="Hyprland for bootable containers"
 LABEL description="The combination of a Fedora boot container and Hyprland compositor"

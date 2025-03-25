@@ -35,6 +35,7 @@ RUN dnf5 install -y \
   gtk-layer-shell-devel \
   gtk-murrine-engine \
   gobject-introspection-devel \
+  greetd \
   iwd \
   kernel-${KERNEL} \
   krb5-workstation \
@@ -48,8 +49,7 @@ RUN dnf5 install -y \
   qt6-qtquickcontrols2 \
   qt6-qtsvg \
   rpm-build-libs \
-  sddm \
-  sddm-themes
+  tuigreet
 
 ##########################################################
 ##### Firmware
@@ -237,12 +237,6 @@ RUN dnf5 clean all
 RUN flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 
 ##########################################################
-##### SDDM theme
-##########################################################
-RUN wget https://github.com/catppuccin/sddm/releases/download/v1.0.0/catppuccin-macchiato.zip -P /tmp
-RUN unzip -d /usr/share/sddm/themes /tmp/catppuccin-macchiato.zip
-
-##########################################################
 ##### Extra modules
 ##########################################################
 # https://projectatomic.io/blog/2018/06/building-kernel-modules-with-podman/
@@ -268,7 +262,7 @@ RUN ln -sr /usr/lib/container-auth.json /etc/ostree/auth.json
 ##### Services
 ##########################################################
 RUN systemctl enable NetworkManager.service
-RUN systemctl enable sddm.service
+RUN systemctl enable greetd.service
 RUN systemctl enable podman.socket
 RUN systemctl enable tailscaled.service
 

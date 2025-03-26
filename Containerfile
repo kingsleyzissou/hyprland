@@ -244,7 +244,8 @@ RUN flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flath
 # https://projectatomic.io/blog/2018/06/building-kernel-modules-with-podman/
 COPY --from=ddcci /usr/lib/modules/${KERNEL}/extra/ddcci.ko /usr/lib/modules/${KERNEL}/extra/ddcci.ko
 COPY --from=ddcci /usr/lib/modules/${KERNEL}/extra/ddcci-backlight.ko /usr/lib/modules/${KERNEL}/extra/ddcci-backlight.ko
-RUN ls -al /usr/lib/modules/${KERNEL}/extra
+COPY --from=ddcci /usr/local/include/linux/ddcci.h /usr/local/include/linux/ddcci.h
+RUN depmod ${KERNEL}
 
 ##########################################################
 ##### Files

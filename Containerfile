@@ -79,9 +79,11 @@ RUN dnf5 -y install \
   astal-gtk4-devel \
   astal-io-devel \
   astal-libs-devel \
+  egl-wayland \
   grimblast \
   hypridle \
-  hyprland \
+  hyprland-git \
+  hyprland-git-debuginfo \
   hyprland-qt-support \
   hyprland-qtutils \
   hyprlock \
@@ -89,10 +91,10 @@ RUN dnf5 -y install \
   hyprpicker \
   hyprshot \
   hyprsunset \
+  hyprwayland-scanner \
   ImageMagick \
   wf-recorder \
-  xdg-desktop-portal \
-  xdg-desktop-portal \
+  wayland-protocols-devel \
   xdg-desktop-portal-hyprland
 RUN dnf5 -y copr disable solopasha/astal
 RUN dnf5 -y copr disable solopasha/hyprland
@@ -135,6 +137,7 @@ RUN dnf5 install -y \
   inxi \
   pavucontrol \
   pamixer \
+  pulseaudio-utils \
   mediainfo
 
 ##########################################################
@@ -143,7 +146,9 @@ RUN dnf5 install -y \
 RUN dnf5 -y copr enable alternateved/cliphist
 RUN dnf5 -y copr enable maximizerr/SwayAura
 RUN dnf5 install -y \
+  adobe-source-code-pro-fonts \
   cliphist \
+  gdb \
   git \
   gh \
   google-noto-emoji-fonts \
@@ -154,6 +159,7 @@ RUN dnf5 install -y \
   jetbrains-mono-fonts \
   libheif \
   man \
+  mpv \
   openssl \
   swappy \
   system-config-printer \

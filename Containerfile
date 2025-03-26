@@ -43,6 +43,7 @@ RUN dnf5 install -y \
   nautilus \
   pciutils \
   pinentry-gnome3 \
+  plymouth \
   qt5-qtgraphicaleffects \
   qt5-qtquickcontrols2 \
   qt5-qtsvg \
@@ -119,7 +120,8 @@ RUN dnf5 install -y \
   ddccontrol-gtk \
   ddcutil \
   kanshi \
-  matugen
+  matugen \
+  terminus-fonts-console
 RUN dnf5 -y copr disable heus-sueh/packages
 
 ##########################################################

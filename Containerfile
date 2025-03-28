@@ -228,6 +228,13 @@ RUN dnf5 install -y \
 RUN dnf5 config-manager setopt 1password.enabled=0
 
 ##########################################################
+##### llms
+##########################################################
+RUN dnf5 -y copr enable mwprado/ollama
+RUN dnf5 install -y ollama
+RUN dnf5 -y copr disable mwprado/ollama
+
+##########################################################
 ##### Red Hat
 ##########################################################
 COPY --from=vpn-configs /rpms /var/tmp/rpms/.
@@ -275,6 +282,7 @@ RUN systemctl enable NetworkManager.service
 RUN systemctl enable greetd.service
 RUN systemctl enable podman.socket
 RUN systemctl enable tailscaled.service
+RUN systemctl enable ollamad.service
 
 ##########################################################
 ##### Mask

@@ -103,6 +103,7 @@ RUN dnf5 -y copr disable solopasha/hyprland
 ##### Connectivity
 ##########################################################
 RUN dnf5 install -y \
+  bolt \
   blueman \
   bluez \
   firewall-config \

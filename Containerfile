@@ -8,18 +8,9 @@ FROM ghcr.io/kingsleyzissou/internal-packages as vpn-configs
 COPY README.md .
 
 ##########################################################
-##### ddcci modules
-##########################################################
-FROM localhost/ddcci as ddcci
-# no-op so we can use this as a builder image
-RUN echo "no-op"
-
-##########################################################
 ##### Hyprland base image
 ##########################################################
-FROM quay.io/fedora/fedora-bootc:41
-
-ARG KERNEL
+FROM quay.io/fedora/fedora-bootc:42
 
 RUN dnf5 -y update && dnf5 -y upgrade
 
@@ -27,7 +18,6 @@ RUN dnf5 -y update && dnf5 -y upgrade
 ##### Core
 ##########################################################
 RUN dnf5 install -y \
-  adwaita-qt6 \
   dnf5-plugins \
   flatpak \
   gtk3-devel \
@@ -37,7 +27,6 @@ RUN dnf5 install -y \
   gobject-introspection-devel \
   greetd \
   iwd \
-  kernel-${KERNEL} \
   krb5-workstation \
   libgtop2 \
   nautilus \
@@ -70,7 +59,7 @@ RUN dnf5 install -y \
 ##########################################################
 ##### Hyprland
 ##########################################################
-RUN dnf5 -y copr enable solopasha/astal
+RUN dnf5 -y copr enable solopasha/astal fedora-rawhide-x86_64
 RUN dnf5 -y copr enable solopasha/hyprland
 RUN dnf5 -y install \
   appmenu-glib-translator \
@@ -145,7 +134,7 @@ RUN dnf5 install -y \
 ##### Utilities
 ##########################################################
 RUN dnf5 -y copr enable alternateved/cliphist
-RUN dnf5 -y copr enable maximizerr/SwayAura
+RUN dnf5 -y copr enable maximizerr/SwayAura fedora-41-x86_64
 RUN dnf5 install -y \
   adobe-source-code-pro-fonts \
   cliphist \
@@ -206,7 +195,7 @@ RUN dnf5 -y copr disable pgdev/ghostty
 ###########################################################
 ###### Tools
 ###########################################################
-RUN dnf5 -y copr enable playtron/gaming
+RUN dnf5 -y copr enable playtron/gaming fedora-41-x86_64
 RUN dnf5 install -y \
   dhcpcd \
   lshw \
@@ -251,15 +240,6 @@ RUN dnf5 clean all
 ###### Flathub
 ###########################################################
 RUN flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-
-##########################################################
-##### Extra modules
-##########################################################
-# https://projectatomic.io/blog/2018/06/building-kernel-modules-with-podman/
-COPY --from=ddcci /usr/lib/modules/${KERNEL}/extra/ddcci.ko /usr/lib/modules/${KERNEL}/extra/ddcci.ko
-COPY --from=ddcci /usr/lib/modules/${KERNEL}/extra/ddcci-backlight.ko /usr/lib/modules/${KERNEL}/extra/ddcci-backlight.ko
-COPY --from=ddcci /usr/local/include/linux/ddcci.h /usr/local/include/linux/ddcci.h
-RUN depmod ${KERNEL}
 
 ##########################################################
 ##### Files

@@ -21,20 +21,9 @@ jobs:
         username: ${{ env.REGISTRY_USER }}
         password: ${{ secrets.AUTH_TOKEN }}
 
-    - name: Build Modules Image
-      id: build-modules
-      uses: redhat-actions/buildah-build@v2
-      with:
-        image: ddcci
-        tags: latest
-        build-args: KERNEL=6.13.7-200.fc41.x86_64
-        containerfiles: |
-          ./files/modules/ddcci/Containerfile
-
     - name: Build Image
       id: build-image
       run: |
         podman build \
-        --build-arg KERNEL=6.13.7-200.fc41.x86_64 \
         --secret id=container_auth,src=/run/user/1001/containers/auth.json \
         --tag ${{ env.IMAGE }} .

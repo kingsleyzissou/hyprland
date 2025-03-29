@@ -256,6 +256,11 @@ RUN chmod 0600 /usr/lib/container-auth.json
 RUN ln -sr /usr/lib/container-auth.json /etc/ostree/auth.json
 
 ##########################################################
+##### re-configure initramfs
+##########################################################
+RUN set -x; kver=$(cd /usr/lib/modules && echo *); dracut -vf /usr/lib/modules/$kver/initramfs.img $kver
+
+##########################################################
 ##### Services
 ##########################################################
 RUN systemctl enable NetworkManager.service

@@ -73,8 +73,6 @@ RUN dnf5 -y install \
   hypridle \
   hyprland-git \
   hyprland-git-debuginfo \
-  hyprland-qt-support \
-  hyprland-qtutils \
   hyprlock \
   hyprpaper \
   hyprpicker \
@@ -215,6 +213,12 @@ RUN dnf5 install -y \
   1password \
   1password-cli
 RUN dnf5 config-manager setopt 1password.enabled=0
+
+###########################################################
+###### Languages
+###########################################################
+RUN dnf5 install -y \
+  golang
 
 ##########################################################
 ##### llms

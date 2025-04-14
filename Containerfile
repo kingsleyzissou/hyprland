@@ -259,7 +259,8 @@ RUN ln -sr /usr/lib/container-auth.json /etc/ostree/auth.json
 ##########################################################
 ##### re-configure initramfs
 ##########################################################
-RUN set -x; kver=$(cd /usr/lib/modules && echo *); dracut -vf /usr/lib/modules/$kver/initramfs.img $kver
+# comment this out for now, it's breaking things
+# RUN set -x; kver=$(cd /usr/lib/modules && echo *); dracut -vf /usr/lib/modules/$kver/initramfs.img $kver
 
 ##########################################################
 ##### Services

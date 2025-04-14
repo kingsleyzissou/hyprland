@@ -208,10 +208,13 @@ RUN dnf5 -y copr disable playtron/gaming
 ###### Applications
 ###########################################################
 COPY files/repos /tmp/repos
+RUN dnf5 -y copr enable sneexy/zen-browser
 RUN dnf5 -y config-manager addrepo --from-repofile /tmp/repos/1password.repo
 RUN dnf5 install -y \
   1password \
-  1password-cli
+  1password-cli \
+  zen-browser
+RUN dnf5 -y copr disable sneexy/zen-browser
 RUN dnf5 config-manager setopt 1password.enabled=0
 
 ##########################################################

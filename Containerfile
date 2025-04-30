@@ -10,7 +10,7 @@ COPY README.md .
 ##########################################################
 ##### Hyprland base image
 ##########################################################
-FROM quay.io/fedora/fedora-bootc:rawhide
+FROM quay.io/fedora/fedora-bootc:42
 
 RUN dnf5 -y update && dnf5 -y upgrade
 
@@ -59,7 +59,7 @@ RUN dnf5 install -y \
 ##########################################################
 ##### Hyprland
 ##########################################################
-RUN dnf5 -y copr enable solopasha/astal
+RUN dnf5 -y copr enable solopasha/astal fedora-rawhide-x86_64
 RUN dnf5 -y copr enable solopasha/hyprland
 RUN dnf5 -y install \
   appmenu-glib-translator \
@@ -220,7 +220,7 @@ RUN dnf5 config-manager setopt 1password.enabled=0
 ##########################################################
 ##### llms
 ##########################################################
-RUN dnf5 -y copr enable mwprado/ollama fedora-42-x86_64
+RUN dnf5 -y copr enable mwprado/ollama
 RUN dnf5 install -y ollama
 RUN dnf5 -y copr disable mwprado/ollama
 

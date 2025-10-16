@@ -211,6 +211,7 @@ RUN dnf5 -y config-manager addrepo --from-repofile /tmp/repos/1password.repo
 RUN dnf5 install -y \
   1password \
   1password-cli \
+  chromium \
   zen-browser
 RUN dnf5 -y copr disable sneexy/zen-browser
 RUN dnf5 config-manager setopt 1password.enabled=0

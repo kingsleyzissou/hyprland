@@ -59,7 +59,6 @@ RUN dnf5 install -y \
 ##########################################################
 ##### Hyprland
 ##########################################################
-RUN dnf5 -y copr enable solopasha/astal fedora-rawhide-x86_64
 RUN dnf5 -y copr enable solopasha/hyprland
 RUN dnf5 -y install \
   appmenu-glib-translator \
@@ -83,7 +82,6 @@ RUN dnf5 -y install \
   wf-recorder \
   wayland-protocols-devel \
   xdg-desktop-portal-hyprland
-RUN dnf5 -y copr disable solopasha/astal
 RUN dnf5 -y copr disable solopasha/hyprland
 
 ##########################################################

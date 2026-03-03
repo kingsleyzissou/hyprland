@@ -224,7 +224,7 @@ RUN dnf5 config-manager setopt 1password.enabled=0
 ##########################################################
 ##### llms
 ##########################################################
-RUN dnf5 -y copr enable mwprado/ollama
+RUN dnf5 -y copr enable mwprado/ollama fedora-43-x86_64
 RUN dnf5 install -y ollama
 RUN dnf5 -y copr disable mwprado/ollama
 

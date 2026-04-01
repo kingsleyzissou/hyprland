@@ -199,6 +199,7 @@ RUN dnf5 -y copr disable pgdev/ghostty
 RUN dnf5 -y copr enable playtron/gaming fedora-41-x86_64
 RUN dnf5 install -y \
   dhcpcd \
+  direnv \
   lshw \
   nmap \
   rsync \

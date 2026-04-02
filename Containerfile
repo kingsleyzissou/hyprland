@@ -139,11 +139,15 @@ RUN dnf5 -y copr enable maximizerr/SwayAura fedora-41-x86_64
 RUN dnf5 install -y \
   adobe-source-code-pro-fonts \
   cliphist \
+  dejavu-sans-fonts \
+  dejavu-sans-mono-fonts \
   gdb \
   git \
   gh \
   google-noto-emoji-fonts \
   google-noto-sans-fonts \
+  google-noto-sans-symbols-fonts \
+  google-noto-sans-symbols2-fonts \
   google-roboto-fonts \
   heif-pixbuf-loader \
   imv \

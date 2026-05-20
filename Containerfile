@@ -229,6 +229,11 @@ RUN dnf5 -y copr disable sneexy/zen-browser
 RUN dnf5 config-manager setopt 1password.enabled=0
 
 ##########################################################
+##### Languages
+##########################################################
+RUN dnf5 install -y golang
+
+##########################################################
 ##### Red Hat
 ##########################################################
 COPY --from=vpn-configs /rpms /var/tmp/rpms/.

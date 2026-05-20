@@ -173,7 +173,7 @@ RUN dnf5 -y copr disable maximizerr/SwayAura
 ##########################################################
 RUN dnf5 -y copr enable atim/starship
 RUN dnf5 -y copr enable atim/lazygit
-RUN dnf5 -y copr enable pgdev/ghostty
+RUN dnf5 -y copr enable scottames/ghostty
 RUN dnf5 install -y \
   bat \
   cava \
@@ -197,7 +197,7 @@ RUN dnf5 install -y \
   zsh
 RUN dnf5 -y copr disable atim/starship
 RUN dnf5 -y copr disable atim/lazygit
-RUN dnf5 -y copr disable pgdev/ghostty
+RUN dnf5 -y copr disable scottames/ghostty
 
 ###########################################################
 ###### Tools

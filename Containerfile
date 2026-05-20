@@ -1,13 +1,4 @@
 ##########################################################
-##### VPN config image
-##########################################################
-FROM ghcr.io/kingsleyzissou/internal-packages as vpn-configs
-# execute a simple action so we can later copy the files
-# from this container, we will need to be logged in with
-# podman to be able to use this.
-COPY README.md .
-
-##########################################################
 ##### Hyprland base image
 ##########################################################
 FROM quay.io/fedora/fedora-bootc:42
@@ -234,12 +225,15 @@ RUN dnf5 config-manager setopt 1password.enabled=0
 RUN dnf5 install -y golang
 
 ##########################################################
-##### Red Hat
+##### VPN
 ##########################################################
-COPY --from=vpn-configs /rpms /var/tmp/rpms/.
-RUN dnf5 install -y \
-  /var/tmp/rpms/redhat-internal-cert-install.rpm \
-  /var/tmp/rpms/redhat-internal-NetworkManager-openvpn-profiles.rpm
+RUN dnf5 -y config-manager addrepo --from-repofile /tmp/repos/netbird.repo
+RUN mkdir -p /tmp/netbird && dnf5 download -y \
+  --destdir=/tmp/netbird \
+  netbird.x86_64 \
+  netbird-ui
+RUN rpm -i --nopost /tmp/netbird/*rpm && rm -rf /tmp/netbird
+RUN dnf5 config-manager setopt Netbird.enabled=0
 
 ##########################################################
 ##### Clean

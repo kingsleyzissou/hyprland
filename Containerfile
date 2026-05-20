@@ -72,6 +72,8 @@ RUN dnf5 -y install \
   hypridle \
   hyprland-git \
   hyprland-git-debuginfo \
+  hyprland-qt-support \
+  hyprland-qtutils \
   hyprlock \
   hyprpaper \
   hyprpicker \

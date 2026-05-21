@@ -17,7 +17,6 @@ RUN dnf5 install -y \
   pciutils \
   pinentry-gnome3 \
   plymouth \
-  rpm-build-libs \
   terminus-fonts-console \
   tuigreet
 
@@ -28,13 +27,8 @@ RUN dnf5 install -y \
   alsa-firmware \
   alsa-sof-firmware \
   alsa-tools-firmware \
-  intel-audio-firmware \
-  intel-gpu-firmware \
-  intel-igc \
   iwlwifi-dvm-firmware \
-  iwlwifi-mvm-firmware \
-  linux-firmware \
-  realtek-firmware
+  iwlwifi-mvm-firmware
 
 ##########################################################
 ##### QEMU
@@ -44,15 +38,12 @@ RUN dnf5 install -y qemu qemu-kvm virt-install
 ##########################################################
 ##### Connectivity
 ##########################################################
+RUN dnf5 group install -y networkmanager-submodules
 RUN dnf5 install -y \
   bolt \
   blueman \
-  bluez \
   firewall-config \
-  NetworkManager \
-  NetworkManager-openvpn-gnome \
   network-manager-applet
-RUN dnf5 group install -y networkmanager-submodules
 
 ##########################################################
 ##### Audio

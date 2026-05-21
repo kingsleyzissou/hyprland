@@ -57,7 +57,6 @@ RUN dnf5 -y copr disable craftidore/wayblueorg-hyprland
 ##########################################################
 RUN dnf5 -y copr enable heus-sueh/packages
 RUN dnf5 install -y \
-  brightnessctl \
   ddccontrol \
   ddccontrol-gtk \
   ddcutil \
@@ -69,7 +68,6 @@ RUN dnf5 -y copr disable heus-sueh/packages
 ##### Fonts
 ##########################################################
 RUN dnf5 install -y \
-  adobe-source-code-pro-fonts \
   dejavu-sans-fonts \
   dejavu-sans-mono-fonts \
   google-noto-emoji-fonts \
@@ -87,10 +85,8 @@ RUN dnf5 install -y \
   cliphist \
   heif-pixbuf-loader \
   imv \
-  libheif \
   man \
   mpv \
-  openssl \
   tailscale \
   swappy \
   system-config-printer \

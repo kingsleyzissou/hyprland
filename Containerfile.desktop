@@ -4,6 +4,11 @@
 FROM ghcr.io/kingsleyzissou/hyprland-base:latest
 
 ##########################################################
+##### Files
+##########################################################
+COPY files/desktop/ /
+
+##########################################################
 ##### Desktop core
 ##########################################################
 RUN dnf5 install -y \
@@ -100,9 +105,7 @@ RUN dnf5 -y copr disable alternateved/cliphist
 ###########################################################
 ###### Applications
 ###########################################################
-COPY files/repos /tmp/repos
 RUN dnf5 -y copr enable sneexy/zen-browser
-RUN dnf5 -y config-manager addrepo --from-repofile /tmp/repos/1password.repo
 RUN dnf5 install -y \
   1password \
   1password-cli \
@@ -114,7 +117,6 @@ RUN dnf5 config-manager setopt 1password.enabled=0
 ##########################################################
 ##### VPN
 ##########################################################
-RUN dnf5 -y config-manager addrepo --from-repofile /tmp/repos/netbird.repo
 RUN mkdir -p /tmp/netbird && dnf5 download -y \
   --destdir=/tmp/netbird \
   netbird.x86_64 \

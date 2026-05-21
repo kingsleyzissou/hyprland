@@ -22,10 +22,10 @@ jobs:
         filters: |
           base:
             - 'Containerfile.base'
-            - 'files/system/**'
+            - 'files/base/**'
           desktop:
             - 'Containerfile.desktop'
-            - 'files/repos/**'
+            - 'files/desktop/**'
           dev:
             - 'Containerfile.dev'
 

@@ -19,13 +19,11 @@ RUN dnf5 install -y \
   git \
   git-delta \
   gh \
-  jq \
   lazygit \
   luarocks \
   neovim \
   pass \
   pass-otp \
-  ripgrep \
   stow \
   starship \
   tldr \

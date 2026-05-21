@@ -1,7 +1,7 @@
 ##########################################################
 ##### Base image
 ##########################################################
-FROM quay.io/fedora/fedora-bootc:43
+FROM quay.io/fedora/fedora-bootc:44
 
 RUN dnf5 -y update && dnf5 -y upgrade
 

@@ -24,6 +24,7 @@ RUN dnf5 install -y \
 ##### Hyprland
 ##########################################################
 RUN dnf5 -y copr enable solopasha/hyprland
+RUN dnf5 -y copr enable craftidore/wayblueorg-hyprland
 RUN dnf5 -y install \
   appmenu-glib-translator \
   astal-devel \
@@ -49,6 +50,7 @@ RUN dnf5 -y install \
   wayland-protocols-devel \
   xdg-desktop-portal-hyprland
 RUN dnf5 -y copr disable solopasha/hyprland
+RUN dnf5 -y copr disable craftidore/wayblueorg-hyprland
 
 ##########################################################
 ##### Display & Theming
@@ -67,7 +69,7 @@ RUN dnf5 -y copr disable heus-sueh/packages
 ##### Utilities
 ##########################################################
 RUN dnf5 -y copr enable alternateved/cliphist
-RUN dnf5 -y copr enable maximizerr/SwayAura fedora-41-x86_64
+RUN dnf5 -y copr enable maximizerr/SwayAura
 RUN dnf5 install -y \
   adobe-source-code-pro-fonts \
   cliphist \
@@ -133,7 +135,7 @@ RUN dnf5 -y copr disable scottames/ghostty
 ###########################################################
 ###### Tools
 ###########################################################
-RUN dnf5 -y copr enable playtron/gaming fedora-41-x86_64
+RUN dnf5 -y copr enable playtron/gaming
 RUN dnf5 install -y \
   dhcpcd \
   direnv \

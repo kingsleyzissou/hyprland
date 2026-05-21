@@ -1,0 +1,63 @@
+##########################################################
+##### Development tools image
+##########################################################
+FROM ghcr.io/kingsleyzissou/hyprland-desktop:latest
+
+##########################################################
+##### Terminal
+##########################################################
+RUN dnf5 -y copr enable atim/starship
+RUN dnf5 -y copr enable atim/lazygit
+RUN dnf5 -y copr enable scottames/ghostty
+RUN dnf5 install -y \
+  bat \
+  cava \
+  distrobox \
+  fastfetch \
+  fzf \
+  ghostty \
+  git \
+  git-delta \
+  gh \
+  jq \
+  lazygit \
+  luarocks \
+  neovim \
+  pass \
+  pass-otp \
+  ripgrep \
+  stow \
+  starship \
+  tldr \
+  tmux \
+  zoxide \
+  zsh
+RUN dnf5 -y copr disable atim/starship
+RUN dnf5 -y copr disable atim/lazygit
+RUN dnf5 -y copr disable scottames/ghostty
+
+##########################################################
+##### Languages
+##########################################################
+RUN dnf5 install -y golang
+
+###########################################################
+###### Tools
+###########################################################
+RUN dnf5 install -y \
+  dhcpcd \
+  direnv \
+  gdb \
+  lshw \
+  nmap \
+  rsync \
+  strace \
+  wget
+
+##########################################################
+##### Clean
+##########################################################
+RUN dnf5 clean all
+
+LABEL summary="Hyprland development environment"
+LABEL description="Development tools, terminal utilities, and language runtimes"

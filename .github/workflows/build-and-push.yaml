@@ -18,6 +18,7 @@ jobs:
     outputs:
       base: ${{ steps.filter.outputs.base }}
       desktop: ${{ steps.filter.outputs.desktop }}
+      dev: ${{ steps.filter.outputs.dev }}
     steps:
     - uses: actions/checkout@v4
 
@@ -30,16 +31,20 @@ jobs:
             - 'Containerfile.base'
             - 'files/system/**'
           desktop:
-            - 'Containerfile'
+            - 'Containerfile.desktop'
             - 'files/repos/**'
+          dev:
+            - 'Containerfile.dev'
 
-  build-base:
-    name: Build and push base image
+  build:
+    name: Build and push images
     needs: changes
     if: |
       github.event_name == 'schedule' ||
       github.event_name == 'workflow_dispatch' ||
-      needs.changes.outputs.base == 'true'
+      needs.changes.outputs.base == 'true' ||
+      needs.changes.outputs.desktop == 'true' ||
+      needs.changes.outputs.dev == 'true'
     runs-on: ubuntu-22.04
 
     steps:
@@ -52,54 +57,75 @@ jobs:
         username: ${{ env.REGISTRY_USER }}
         password: ${{ secrets.AUTH_TOKEN }}
 
-    - name: Build Base Image
+    # Base
+    - name: Build base image
+      if: |
+        github.event_name == 'schedule' ||
+        github.event_name == 'workflow_dispatch' ||
+        needs.changes.outputs.base == 'true'
       run: |
         podman build \
         --tag ${{ env.IMAGE_REGISTRY }}/hyprland-base:latest \
         --file Containerfile.base .
 
     - name: Push base image
+      if: |
+        github.event_name == 'schedule' ||
+        github.event_name == 'workflow_dispatch' ||
+        needs.changes.outputs.base == 'true'
       uses: redhat-actions/push-to-registry@v2
       with:
         registry: ${{ env.IMAGE_REGISTRY }}
         image: hyprland-base
         tags: latest
 
-  build-desktop:
-    name: Build and push desktop image
-    needs: [changes, build-base]
-    if: |
-      always() &&
-      !cancelled() &&
-      !contains(needs.*.result, 'failure') &&
-      (github.event_name == 'schedule' ||
-       github.event_name == 'workflow_dispatch' ||
-       needs.changes.outputs.base == 'true' ||
-       needs.changes.outputs.desktop == 'true')
-    runs-on: ubuntu-22.04
+    # Desktop
+    - name: Build desktop image
+      if: |
+        github.event_name == 'schedule' ||
+        github.event_name == 'workflow_dispatch' ||
+        needs.changes.outputs.base == 'true' ||
+        needs.changes.outputs.desktop == 'true'
+      run: |
+        podman build \
+        --secret id=container_auth,src=/run/user/1001/containers/auth.json \
+        --tag ${{ env.IMAGE_REGISTRY }}/hyprland-desktop:latest \
+        --file Containerfile.desktop .
 
-    steps:
-    - uses: actions/checkout@v4
-
-    - name: Log in to ghcr.io
-      uses: redhat-actions/podman-login@v1
+    - name: Push desktop image
+      if: |
+        github.event_name == 'schedule' ||
+        github.event_name == 'workflow_dispatch' ||
+        needs.changes.outputs.base == 'true' ||
+        needs.changes.outputs.desktop == 'true'
+      uses: redhat-actions/push-to-registry@v2
       with:
         registry: ${{ env.IMAGE_REGISTRY }}
-        username: ${{ env.REGISTRY_USER }}
-        password: ${{ secrets.AUTH_TOKEN }}
+        image: hyprland-desktop
+        tags: latest
 
-    - name: Build Desktop Image
+    # Dev
+    - name: Build dev image
+      if: |
+        github.event_name == 'schedule' ||
+        github.event_name == 'workflow_dispatch' ||
+        needs.changes.outputs.base == 'true' ||
+        needs.changes.outputs.desktop == 'true' ||
+        needs.changes.outputs.dev == 'true'
       run: |
         podman build \
         --tag ${{ env.IMAGE_REGISTRY }}/hyprland:latest \
-        --file Containerfile .
+        --file Containerfile.dev .
 
-    - name: Push desktop image
+    - name: Push dev image
+      if: |
+        github.event_name == 'schedule' ||
+        github.event_name == 'workflow_dispatch' ||
+        needs.changes.outputs.base == 'true' ||
+        needs.changes.outputs.desktop == 'true' ||
+        needs.changes.outputs.dev == 'true'
       uses: redhat-actions/push-to-registry@v2
       with:
         registry: ${{ env.IMAGE_REGISTRY }}
         image: hyprland
         tags: latest
-
-    - name: Print image url
-      run: echo "Image pushed to ${{ steps.push-to-registry.outputs.registry-paths }}"

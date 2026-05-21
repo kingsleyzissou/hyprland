@@ -66,86 +66,40 @@ RUN dnf5 install -y \
 RUN dnf5 -y copr disable heus-sueh/packages
 
 ##########################################################
-##### Utilities
+##### Fonts
 ##########################################################
-RUN dnf5 -y copr enable alternateved/cliphist
-RUN dnf5 -y copr enable maximizerr/SwayAura
 RUN dnf5 install -y \
   adobe-source-code-pro-fonts \
-  cliphist \
   dejavu-sans-fonts \
   dejavu-sans-mono-fonts \
-  gdb \
-  git \
-  gh \
   google-noto-emoji-fonts \
   google-noto-sans-fonts \
   google-noto-sans-symbols-fonts \
   google-noto-sans-symbols2-fonts \
   google-roboto-fonts \
+  jetbrains-mono-fonts
+
+##########################################################
+##### Utilities
+##########################################################
+RUN dnf5 -y copr enable alternateved/cliphist
+RUN dnf5 install -y \
+  cliphist \
   heif-pixbuf-loader \
   imv \
-  jetbrains-mono-fonts \
   libheif \
   man \
   mpv \
   openssl \
+  tailscale \
   swappy \
   system-config-printer \
-  tailscale \
-  tldr \
   udiskie \
   vulkan-validation-layers \
   vulkan-tools \
   wev
+
 RUN dnf5 -y copr disable alternateved/cliphist
-RUN dnf5 -y copr disable maximizerr/SwayAura
-
-##########################################################
-##### Terminal
-##########################################################
-RUN dnf5 -y copr enable atim/starship
-RUN dnf5 -y copr enable atim/lazygit
-RUN dnf5 -y copr enable scottames/ghostty
-RUN dnf5 install -y \
-  bat \
-  cava \
-  distrobox \
-  fastfetch \
-  fzf \
-  ghostty \
-  git-delta \
-  jq \
-  lazygit \
-  luarocks \
-  pass \
-  pass-otp \
-  neovim \
-  ripgrep \
-  stow \
-  starship \
-  tldr \
-  tmux \
-  zoxide \
-  zsh
-RUN dnf5 -y copr disable atim/starship
-RUN dnf5 -y copr disable atim/lazygit
-RUN dnf5 -y copr disable scottames/ghostty
-
-###########################################################
-###### Tools
-###########################################################
-RUN dnf5 -y copr enable playtron/gaming
-RUN dnf5 install -y \
-  dhcpcd \
-  direnv \
-  lshw \
-  nmap \
-  rsync \
-  strace \
-  tzupdate \
-  wget
-RUN dnf5 -y copr disable playtron/gaming
 
 ###########################################################
 ###### Applications
@@ -160,11 +114,6 @@ RUN dnf5 install -y \
   zen-browser
 RUN dnf5 -y copr disable sneexy/zen-browser
 RUN dnf5 config-manager setopt 1password.enabled=0
-
-##########################################################
-##### Languages
-##########################################################
-RUN dnf5 install -y golang
 
 ##########################################################
 ##### VPN
@@ -195,12 +144,11 @@ RUN --mount=type=secret,id=container_auth cp /run/secrets/container_auth /usr/li
 RUN chmod 0600 /usr/lib/container-auth.json
 RUN ln -sr /usr/lib/container-auth.json /etc/ostree/auth.json
 
-
 ##########################################################
 ##### Services
 ##########################################################
 RUN systemctl enable podman.socket
 RUN systemctl enable tailscaled.service
 
-LABEL summary="Hyprland for bootable containers"
-LABEL description="The combination of a Fedora boot container and Hyprland compositor"
+LABEL summary="Hyprland desktop for bootable containers"
+LABEL description="Hyprland compositor with theming, applications, and desktop utilities"

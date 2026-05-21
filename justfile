@@ -5,7 +5,6 @@ qcow2 := "/scratch/VMs/test.qcow2"
 base:
     sudo podman build \
         --platform linux/amd64 \
-        --secret id=container_auth,src=/etc/ostree/auth.json,type=file \
         --tag {{ registry }}/hyprland-base:latest \
         --file Containerfile.base .
 
@@ -13,11 +12,19 @@ base:
 desktop:
     sudo podman build \
         --platform linux/amd64 \
-        --tag {{ registry }}/hyprland:latest \
-        --file Containerfile .
+        --secret id=container_auth,src=/etc/ostree/auth.json,type=file \
+        --tag {{ registry }}/hyprland-desktop:latest \
+        --file Containerfile.desktop .
 
-# Build both base and desktop images
-container: base desktop
+# Build the dev container image
+dev:
+    sudo podman build \
+        --platform linux/amd64 \
+        --tag {{ registry }}/hyprland:latest \
+        --file Containerfile.dev .
+
+# Build all images
+container: base desktop dev
 
 # Build an anaconda ISO image
 image:

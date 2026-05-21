@@ -1,51 +1,24 @@
 ##########################################################
-##### Hyprland base image
+##### Hyprland desktop image
 ##########################################################
-FROM quay.io/fedora/fedora-bootc:43
-
-RUN dnf5 -y update && dnf5 -y upgrade
+FROM ghcr.io/kingsleyzissou/hyprland-base:latest
 
 ##########################################################
-##### Core
+##### Desktop core
 ##########################################################
 RUN dnf5 install -y \
-  dnf5-plugins \
-  flatpak \
   gtk3-devel \
   gtk4-devel \
   gtk-layer-shell-devel \
   gtk-murrine-engine \
   gobject-introspection-devel \
-  greetd \
-  iwd \
-  krb5-workstation \
   libgtop2 \
   nautilus \
-  pciutils \
-  pinentry-gnome3 \
-  plymouth \
   qt5-qtgraphicaleffects \
   qt5-qtquickcontrols2 \
   qt5-qtsvg \
   qt6-qtquickcontrols2 \
-  qt6-qtsvg \
-  rpm-build-libs \
-  tuigreet
-
-##########################################################
-##### Firmware
-##########################################################
-RUN dnf5 install -y \
-  alsa-firmware \
-  alsa-sof-firmware \
-  alsa-tools-firmware \
-  intel-audio-firmware \
-  intel-gpu-firmware \
-  intel-igc \
-  iwlwifi-dvm-firmware \
-  iwlwifi-mvm-firmware \
-  linux-firmware \
-  realtek-firmware
+  qt6-qtsvg
 
 ##########################################################
 ##### Hyprland
@@ -78,25 +51,6 @@ RUN dnf5 -y install \
 RUN dnf5 -y copr disable solopasha/hyprland
 
 ##########################################################
-##### QEMU
-##########################################################
-RUN dnf5 install -y qemu qemu-kvm virt-install
-
-##########################################################
-##### Connectivity
-##########################################################
-RUN dnf5 install -y \
-  bolt \
-  blueman \
-  bluez \
-  firewall-config \
-  NetworkManager \
-  NetworkManager-openvpn-gnome \
-  network-manager-applet \
-  tailscale
-RUN dnf5 group install -y networkmanager-submodules
-
-##########################################################
 ##### Display & Theming
 ##########################################################
 RUN dnf5 -y copr enable heus-sueh/packages
@@ -106,23 +60,8 @@ RUN dnf5 install -y \
   ddccontrol-gtk \
   ddcutil \
   kanshi \
-  matugen \
-  terminus-fonts-console
+  matugen
 RUN dnf5 -y copr disable heus-sueh/packages
-
-##########################################################
-##### Audio
-##########################################################
-RUN dnf5 install -y \
-  alsa-plugins-oss \
-  alsa-topology \
-  alsa-utils \
-  alsa-tools \
-  inxi \
-  pavucontrol \
-  pamixer \
-  pulseaudio-utils \
-  mediainfo
 
 ##########################################################
 ##### Utilities
@@ -151,6 +90,7 @@ RUN dnf5 install -y \
   openssl \
   swappy \
   system-config-printer \
+  tailscale \
   tldr \
   udiskie \
   vulkan-validation-layers \
@@ -246,12 +186,6 @@ RUN dnf5 clean all
 RUN flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 
 ##########################################################
-##### Files
-##########################################################
-COPY files/system/etc /etc
-COPY files/system/usr /usr
-
-##########################################################
 ##### Secrets
 ##########################################################
 RUN mkdir -p /etc/secrets
@@ -259,24 +193,12 @@ RUN --mount=type=secret,id=container_auth cp /run/secrets/container_auth /usr/li
 RUN chmod 0600 /usr/lib/container-auth.json
 RUN ln -sr /usr/lib/container-auth.json /etc/ostree/auth.json
 
-##########################################################
-##### re-configure initramfs
-##########################################################
-RUN set -x; kver=$(cd /usr/lib/modules && echo *); dracut -vf /usr/lib/modules/$kver/initramfs.img $kver
 
 ##########################################################
 ##### Services
 ##########################################################
-RUN systemctl enable NetworkManager.service
-RUN systemctl enable greetd.service
 RUN systemctl enable podman.socket
 RUN systemctl enable tailscaled.service
-
-##########################################################
-##### Mask
-##########################################################
-RUN systemctl mask rpm-ostree-countme.timer
-RUN systemctl mask rpm-ostree-countme.service
 
 LABEL summary="Hyprland for bootable containers"
 LABEL description="The combination of a Fedora boot container and Hyprland compositor"

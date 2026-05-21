@@ -4,11 +4,32 @@ on: [ pull_request ]
 env:
   REGISTRY_USER: kingsleyzissou
   IMAGE_REGISTRY: ghcr.io/kingsleyzissou
-  IMAGE: hyprland
 
 jobs:
-  build:
-    name: Build container image
+  changes:
+    name: Detect changes
+    runs-on: ubuntu-22.04
+    outputs:
+      base: ${{ steps.filter.outputs.base }}
+      desktop: ${{ steps.filter.outputs.desktop }}
+    steps:
+    - uses: actions/checkout@v4
+
+    - uses: dorny/paths-filter@v3
+      id: filter
+      with:
+        filters: |
+          base:
+            - 'Containerfile.base'
+            - 'files/system/**'
+          desktop:
+            - 'Containerfile'
+            - 'files/repos/**'
+
+  build-base:
+    name: Build base image
+    needs: changes
+    if: needs.changes.outputs.base == 'true'
     runs-on: ubuntu-22.04
 
     steps:
@@ -21,9 +42,35 @@ jobs:
         username: ${{ env.REGISTRY_USER }}
         password: ${{ secrets.AUTH_TOKEN }}
 
-    - name: Build Image
-      id: build-image
+    - name: Build Base Image
       run: |
         podman build \
-        --secret id=container_auth,src=/run/user/1001/containers/auth.json \
-        --tag ${{ env.IMAGE }} .
+        --tag ${{ env.IMAGE_REGISTRY }}/hyprland-base:latest \
+        --file Containerfile.base .
+
+  build-desktop:
+    name: Build desktop image
+    needs: [changes, build-base]
+    if: |
+      always() &&
+      !cancelled() &&
+      !contains(needs.*.result, 'failure') &&
+      (needs.changes.outputs.base == 'true' ||
+       needs.changes.outputs.desktop == 'true')
+    runs-on: ubuntu-22.04
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Log in to ghcr.io
+      uses: redhat-actions/podman-login@v1
+      with:
+        registry: ${{ env.IMAGE_REGISTRY }}
+        username: ${{ env.REGISTRY_USER }}
+        password: ${{ secrets.AUTH_TOKEN }}
+
+    - name: Build Desktop Image
+      run: |
+        podman build \
+        --tag ${{ env.IMAGE_REGISTRY }}/hyprland:latest \
+        --file Containerfile .

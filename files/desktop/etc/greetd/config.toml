@@ -2,5 +2,5 @@
 vt = 2
 
 [default_session]
-command = "tuigreet --cmd /usr/bin/hyprland"
+command = "tuigreet --cmd /usr/bin/start-hyprland"
 user = "greeter"
